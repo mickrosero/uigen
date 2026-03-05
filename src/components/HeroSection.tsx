@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface HeroSectionProps {
   title: string;
@@ -18,12 +18,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       <h1 className="hero-title">{title}</h1>
       <button
         className="hero-button"
-        style={{
-          background: `linear-gradient(to right, ${gradientColor}, #ffffff)`,
-        }}
+        style={{ background: `linear-gradient(to right, ${gradientColor}, #ffffff)` }}
         onClick={onClick}
+        aria-label="Lanzar aplicación"
       >
-        {buttonText}
+        <span className="hero-icon">🚀</span>
       </button>
     </div>
   );

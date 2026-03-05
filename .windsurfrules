@@ -23,3 +23,7 @@ You are an autonomous developer agent. Your goal is to ensure code quality, visu
 - Use modern gradients (e.g., Sunset, Ocean).
 - Typography must be bold for headers (`48px`+).
 - Buttons must have `border-radius: 8px` and subtle hover transitions.
+
+## ♿ Hook de Accesibilidad (A11Y)
+- **Regla:** Todos los botones creados DEBEN tener un atributo `aria-label` o un texto descriptivo claro.
+- **Validación:** El script de Playwright debe fallar si encuentra un botón sin etiqueta, impidiendo el commit.

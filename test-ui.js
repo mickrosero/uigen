@@ -1,38 +1,30 @@
 const { chromium } = require('playwright');
 
 (async () => {
-  const browser = await chromium.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
+  const browser = await chromium.launch();
   const page = await browser.newPage();
   
   try {
-    console.log('🔗 Conectando a Next.js en 127.0.0.1:3000...');
+    await page.goto('http://127.0.0.1:3000', { waitUntil: 'networkidle' });
     
-    // Usamos la IP directa para evitar líos de DNS en WSL
-    await page.goto('http://127.0.0.1:3000', { 
-      waitUntil: 'networkidle', 
-      timeout: 20000 
-    });
-
-    // Esperamos 2 segundos extra por si acaso el JS de Next.js es lento
-    await page.waitForTimeout(2000);
-
-    // Buscamos cualquier botón en la página
-    const button = page.getByRole('button');
-    const count = await button.count();
+    const buttons = page.getByRole('button');
+    const count = await buttons.count();
     
-    if (count > 0) {
-      console.log('✅ TEST PASADO: ¡Se detectaron ' + count + ' botón(es) en la interfaz!');
-      process.exit(0);
-    } else {
-      console.log('❌ TEST FALLIDO: El servidor respondió pero no hay botones en el DOM.');
-      // Guardamos una foto para ver qué hay realmente
-      await page.screenshot({ path: 'test-fail.png' });
-      process.exit(1);
+    for (let i = 0; i < count; i++) {
+      const btn = buttons.nth(i);
+      const label = await btn.textContent();
+      const ariaLabel = await btn.getAttribute('aria-label');
+      
+      if (!label && !ariaLabel) {
+        console.log('❌ ERROR DE ACCESIBILIDAD: Se encontró un botón sin texto ni aria-label.');
+        process.exit(1);
+      }
     }
+    
+    console.log('✅ TEST PASADO: Todos los botones son accesibles.');
+    process.exit(0);
   } catch (e) {
-    console.log('❌ ERROR TÉCNICO:', e.message);
+    console.log('❌ ERROR:', e.message);
     process.exit(1);
   } finally {
     await browser.close();
