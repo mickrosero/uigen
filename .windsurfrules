@@ -1,0 +1,25 @@
+# Rules for Project "uigen" (MCP & Hooks Simulation)
+
+## 🎯 Global Intent
+You are an autonomous developer agent. Your goal is to ensure code quality, visual correctness, and clean git history without being asked.
+
+## 🛠️ Hook 1: Automatic Formatting (Post-Write)
+- **Trigger:** Whenever a file with extension `.tsx`, `.ts`, `.js`, or `.css` is created or modified.
+- **Action:** Immediately run `npx prettier --write <file_path>`.
+- **Validation:** If formatting fails, fix the syntax errors before notifying the user.
+
+## 👁️ Hook 2: Visual Validation (MCP Playwright)
+- **Trigger:** Before finishing any UI-related task (like creating `HeroSection.tsx`).
+- **Required Action:** 1. Ensure the local server is running (check port 3000).
+    2. Execute a Playwright script (like the one in our example) to verify element visibility.
+    3. **Critical:** Look for the `.hero-button` and confirm its computed style has a `linear-gradient`.
+- **Failure Protocol:** If the button is not visible or the gradient is broken, fix the CSS/TSX and re-test.
+
+## 📜 Hook 3: Smart Git Commits
+- **Standard:** Use Conventional Commits (`feat:`, `fix:`, `style:`, `refactor:`).
+- **Rule:** Every commit must include a brief description of the visual validation result (e.g., "feat: add HeroSection (Playwright verified: button visible)").
+
+## 🎨 Design System Constraints
+- Use modern gradients (e.g., Sunset, Ocean).
+- Typography must be bold for headers (`48px`+).
+- Buttons must have `border-radius: 8px` and subtle hover transitions.
