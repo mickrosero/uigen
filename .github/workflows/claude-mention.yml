@@ -9,30 +9,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       
-      # Asegura que el directorio slash-commands existe antes de que la acción lo copie
-      - name: Crear slash-commands si no existe
+      # Crear el directorio slash-commands correctamente
+      - name: Crear directorio slash-commands
         run: |
-          mkdir -p /home/runner/work/_actions/anthropics/claude-code-action/beta/slash-commands
-          # Puedes agregar archivos requeridos, por ejemplo:
-          # echo "[]" > /home/runner/work/_actions/anthropics/claude-code-action/beta/slash-commands/commands.json
-
-      # Verifica y crea la rama remota si no existe
-      - name: Verificar y crear rama remota si falta
-        env:
-          BRANCH_NAME: claude/issue-2-20260305-2007
-        run: |
-          git fetch origin
-          if ! git ls-remote --exit-code --heads origin "$BRANCH_NAME"; then
-            git checkout -b "$BRANCH_NAME"
-            git push origin "$BRANCH_NAME"
-            git checkout main
-          fi
+          mkdir -p /home/runner/.claude/slash-commands
+          # Crear un archivo básico si es necesario
+          echo "[]" > /home/runner/.claude/slash-commands/commands.json 2>/dev/null || true
 
       - uses: anthropics/claude-code-action@beta
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}          
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
+  pull-requests: write
