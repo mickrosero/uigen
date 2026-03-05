@@ -1,4 +1,5 @@
 name: Claude Mention
+
 on:
   issue_comment:
     types: [created]
@@ -11,13 +12,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
-      # Crear el directorio slash-commands correctamente
-      - name: Crear directorio slash-commands
+
+      # Asegura que el directorio slash-commands existe y añade un archivo básico si falta
+      - name: Crear directorio slash-commands si no existe
         run: |
           mkdir -p /home/runner/.claude/slash-commands
-          # Crear un archivo básico si es necesario
-          echo "[]" > /home/runner/.claude/slash-commands/commands.json 2>/dev/null || true
+          if [ ! -f "/home/runner/.claude/slash-commands/commands.json" ]; then
+            echo "[]" > /home/runner/.claude/slash-commands/commands.json
+          fi
+
+      # Verifica que la rama existe antes de realizar operaciones
+      - name: Verifica existencia de rama remota antes de continuar
+        run: |
+          git fetch origin
+          if ! git ls-remote --exit-code origin claude/issue-2-20260305-2026; then
+            echo "La rama remota 'claude/issue-2-20260305-2026' no existe. Algunos pasos se omitirán."
+          fi
 
       - uses: anthropics/claude-code-action@beta
         with:
