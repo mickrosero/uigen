@@ -3,32 +3,21 @@
     "PreToolUse": [
       {
         "matcher": "Read|Grep",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node $PWD/hooks/read_hook.js"
-          }
-        ]
+        "hooks": [{"type": "command", "command": "node $PWD/hooks/read_hook.js"}]
       }
     ],
     "PostToolUse": [
       {
+        "matcher": "*",
+        "hooks": [{"type": "command", "command": "node $PWD/hooks/activity_logger.js"}]
+      },
+      {
         "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node $PWD/hooks/typecheck_hook.js"
-          }
-        ]
+        "hooks": [{"type": "command", "command": "node $PWD/hooks/typecheck_hook.js"}]
       },
       {
         "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node $PWD/hooks/query_hook.js"
-          }
-        ]
+        "hooks": [{"type": "command", "command": "node $PWD/hooks/query_hook.js"}]
       }
     ]
   }

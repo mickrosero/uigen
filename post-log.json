@@ -1,0 +1,13 @@
+{
+  "session_id": "test",
+  "hook_event_name": "PostToolUse",
+  "tool_name": "TodoWrite",
+  "tool_input": {
+    "todos": [
+      {
+        "content": "write a readme",
+        "status": "pending"
+      }
+    ]
+  }
+}

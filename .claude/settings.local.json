@@ -3,32 +3,21 @@
     "PreToolUse": [
       {
         "matcher": "Read|Grep",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /mnt/c/Users/roserom/Downloads/uigen/hooks/read_hook.js"
-          }
-        ]
+        "hooks": [{"type": "command", "command": "node /mnt/c/Users/roserom/Downloads/uigen/hooks/read_hook.js"}]
       }
     ],
     "PostToolUse": [
       {
+        "matcher": "*",
+        "hooks": [{"type": "command", "command": "node /mnt/c/Users/roserom/Downloads/uigen/hooks/activity_logger.js"}]
+      },
+      {
         "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /mnt/c/Users/roserom/Downloads/uigen/hooks/typecheck_hook.js"
-          }
-        ]
+        "hooks": [{"type": "command", "command": "node /mnt/c/Users/roserom/Downloads/uigen/hooks/typecheck_hook.js"}]
       },
       {
         "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /mnt/c/Users/roserom/Downloads/uigen/hooks/query_hook.js"
-          }
-        ]
+        "hooks": [{"type": "command", "command": "node /mnt/c/Users/roserom/Downloads/uigen/hooks/query_hook.js"}]
       }
     ]
   }
